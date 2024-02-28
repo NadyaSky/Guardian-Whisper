@@ -1,0 +1,26 @@
+// Определение пинов для PIR-сенсора и сирены
+const int PIRPin = 2; // Пин, к которому подключен PIR-сенсор
+const int sirenPin = 3; // Пин, к которому подключена сирена
+
+void setup() {
+  Serial.begin(9600); // Инициализируем серийное соединение
+  pinMode(PIRPin, INPUT); // Установка режима PIR пина как вход
+  pinMode(sirenPin, OUTPUT); // Установка режима пина сирены как выход
+  digitalWrite(sirenPin, LOW); // По умолчанию сирена выключена
+}
+
+void loop() {
+  int motionStatus = digitalRead(PIRPin); // Чтение состояния PIR-сенсора
+
+  if (motionStatus == HIGH) { // Если обнаружено движение
+    digitalWrite(sirenPin, HIGH); // Включить сирену
+    Serial.println("Движение обнаружено: сирена активирована!");
+    delay(10000); // Сирена будет включена на 10 секунд
+    digitalWrite(sirenPin, LOW); // Выключить сирену
+  } else {
+    digitalWrite(sirenPin, LOW); // Убедиться, что сирена выключена, если движение не обнаружено
+    Serial.println("Движение не обнаружено.");
+  }
+
+  delay(1000); // Задержка перед следующим циклом опроса
+}
